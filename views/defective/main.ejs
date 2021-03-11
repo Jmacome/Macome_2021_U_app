@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Jquery script -->
+    <script type="text/javascript" src="/scripts/jquery-3.4.1.js"></script>
+    <!-- Fontawesome script -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <!-- javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>defect_main</title>
+</head>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-custom fixed-top">
+        <div class=" container-fluid mt-3">
+            <div class="row container-fluid">
+                <div class="col-4 dinamic_machinename"><h2 style="height:50%; width:100%; text-align: center; margin: 7% 0%;">重点管理不良特性一覧</h2></div>
+                <!-- Display only the active button which indicates the shift -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-4 mt-auto mb-auto" style="font-size:100%; text-align: right;"><strong>シフト：</strong></div>
+                        <div class="shift_check col-8" id="s_1" value="normal">
+                            <h4 style="width:100%; height: 100%; font-size: 500%;">
+                            <% let shift='1S' %>
+                            <% let shift_val=['普通','1S', '1S' , '1S' ]%>
+                            <% if (shift=='normal' ) { %>
+                            <%= shift_val[0]%>
+                            <% }if (shift=='1S' ) {%>
+                            <%= shift_val[1]%>
+                            <%}%>
+                            <%if (shift=='2S' ) {%>
+                            <%= shift_val[2]%>
+                            <%}%>
+                            <%if (shift=='3S' ) {%>
+                            <%= shift_val[3]%>
+                            <%}%>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Display only the active button which indicates the shift -->
+                <div class="col-1 mt-auto mb-auto ps-0 pe-0" style="text-align: center;">
+                    <button class="btn btn-primary btn_save_all" style="height:50%; width:100%"><h3>登録</h3></button>
+                </div>
+                <!-- <a href="/defective/all" class="btn btn-primary" style="height:100%; width:40%"><h3>設備選択</h3> </a> -->
+                <div class="dropdown col-2  mt-auto mb-auto" style="text-align: center;">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" style="height:50%; width:80%" data-bs-toggle="dropdown" aria-expanded="false"><h3>設備選択</h3></button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton"
+                        style="text-align: center; margin-top:0px;">
+                        <li><button class="dropdown-item" value="99">マイン画面</button></li><% var machine_names=[] %>
+                            <%var machine_id_val=[] %>
+                            <% for (var i=0 ; i<results.length; i++) {%>
+                            <% machine_names.push(results[i].machine_name) %>
+                            <% machine_id_val.push(results[i].m_machine_id)%>
+                            <%}%>
+                            <% const unique_machine_names=(value, index, self)=> {%>
+                            <% return self.indexOf(value)===index %>
+                            <%}%>
+                            <%for (n=0;n<machine_names.filter(unique_machine_names).length;n++){%>
+                        <li><button class="dropdown-item" value="<%=parseInt(machine_id_val.filter(unique_machine_names)[n])%>">
+                                    <%=machine_names.filter(unique_machine_names)[n]%></button></li>
+                                <%}%>
+                    </ul>
+                </div>
+
+                <div class="col-1  mt-auto mb-auto ps-0 pe-0" style="text-align: right;">
+                    <a href="/defective" class="btn btn-primary" style="height:50%; width:100%; text-align: center;"><h6>シフト画面に<br>戻る</h6></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header ends here -->
+    <!-- Add a button to update the defective count and it should be increased by 1 when pressed the up icon and minus 1 when pressed the bellow icon-->
+
+
+
+
+    <div class="container-fluid mt-3" style="background: white; ">
+
+            <!-- Table 1 left side Starts hear  -->
+        <div class="row row_container">
+            <div <%var rowclass = "row_"+99%> class="col-6 table-responsive <%=rowclass%>">
+                    <table class="table table-bordered table-striped table-hover table-success data-table">
+                            <thead>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:23%;"><h4>設備名</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:15%; text-align: center;"><h5>不良コード</h5></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);text-align: center;"><h4>不良特性</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:25%; text-align: center;"><h3></h3></th>
+                        </thead>
+                        <tbody>
+                            <% for (var i=0 ; i<results.length; i++) {%>
+                                <tr data-m_machine_id="<%=results[i].m_machine_id %>"
+                                    data-machine_name="<%=results[i].machine_name %>"
+                                    data-defective_code="<%=results[i].defective_code %>"
+                                    data-defective_name="<%=results[i].defective_name %>"
+                                    data-defective_count="<%=results[i].defective_count %>">
+                                    <% if (results[i].importance_flag> 0) {%>
+                                        <% if (i%2===0) {%>
+                                            <%} else{%>
+                                                <td hidden><h5><%= results[i].m_machine_id %></h5></td>
+                                                <td><h5><%= results[i].machine_name %></h5></td>
+                                                <td><h3><%= results[i].m_defective_code %></h3></td>
+                                                <td><h5><%= results[i].defective_name %></h5></td>
+                                                <td>
+                                                <div class="row"><div class="col-6"><input style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;"
+                                                    value="<%= results[i].defective_count %>">
+                                                    </div><div class="col-3 ps-0"><button id="plus" class="btn btn-info add_count" ><i class="fas fa-plus" style="color:white;"></i></button>
+                                                    </div><div class="col-3 ps-0"><button id="minus" class="btn btn-info subtract_count"><i class="fas fa-minus" style="color:white;"></i></button>
+                                                </div></div></td></tr><%}}}%>
+                        </tbody>
+                    </table>
+            </div>
+<!-- Table 1 left side ends here -->
+
+<!-- Table 1 right side Starts here -->
+            <div class="col-6 table-responsive <%=rowclass%>">
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <th style="background-color: rgb(37, 119, 187);width:23%;"><h4>設備名</h4></th>
+                        <th style="background-color: rgb(37, 119, 187);width:15%;"><h5>不良コード</h5></th>
+                        <th style="background-color: rgb(37, 119, 187);"><h4>不良特性</h4></th>
+                        <th style="background-color: rgb(37, 119, 187);width:25%;"><h3></h3></th>
+                    </thead>
+                    <tbody>
+                        <% for (var i=0 ; i<results.length; i++) {%>
+                            <tr data-m_machine_id="<%=results[i].m_machine_id %>"
+                                data-machine_name="<%=results[i].machine_name %>"
+                                data-defective_code="<%=results[i].defective_code %>"
+                                data-defective_name="<%=results[i].defective_name %>"
+                                data-defective_count="<%=results[i].defective_count %>">
+                                <% if (results[i].importance_flag> 0) {%>
+                                    <% if (i%2===0) {%>
+                                        <td hidden>
+                                            <h5><%= results[i].m_machine_id %></h5>
+                                        </td>
+                                        <td>
+                                            <h5><%= results[i].machine_name %></h5>
+                                        </td>
+                                        <td>
+                                            <h3><%= results[i].m_defective_code %></h3>
+                                        </td>
+                                        <td>
+                                            <h5><%= results[i].defective_name %></h5>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input
+                                                        style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;"
+                                                        class="input_count" value="<%= results[i].defective_count %>">
+                                                </div>
+                                                <div class="col-3 ps-0" value="2">
+                                                    <button class="btn btn-info add_count"><i class="fas fa-plus"
+                                                            style="color:white;"></i></button>
+                                                </div>
+                                                <div class="col-3 ps-0">
+                                                    <button class="btn btn-info subtract_count"><i class="fas fa-minus"
+                                                            style="color:white;"></i></button>
+                                                </div>
+                                            </div>
+                                        </td>
+                            </tr>
+                            <%} else{%>
+                                <%}%>
+                                    <%}%>
+                                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<!-- Table 1 right side ends here -->
+
+
+
+
+
+
+
+
+
+<!-- Table 2 left side Starts here  -->
+<!-- <div class="container-fluid mt-3 position-absolute" style="background: white;"> -->
+
+            <div class="row row_container" >
+                <%for (n=0;n<machine_names.filter(unique_machine_names).length;n++){%>
+                <div  <%var rowclass = "row_"+parseInt(machine_id_val.filter(unique_machine_names)[n])%> class="col-6 hidden table-responsive <%=rowclass%>">
+
+                    <table class="table table-bordered table-striped table-hover table-success data-table">
+                        <thead class="">
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:23%; text-align: center;"><h4>設備名</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:15%; text-align: center;"><h5>不良コード</h5></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);text-align: center;"><h4>不良特性</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:25%; text-align: center;"><h3></h3></th>
+                        </thead>
+                        <tbody>
+                            <% for (var i=0 ; i<results.length; i++) {%>
+                                <tr data-m_machine_id="<%=results[i].m_machine_id %>"
+                                    data-machine_name="<%=results[i].machine_name %>"
+                                    data-defective_code="<%=results[i].defective_code %>"
+                                    data-defective_name="<%=results[i].defective_name %>"
+                                    data-defective_count="<%=results[i].defective_count %>">
+                                    <% if (results[i].m_machine_id==parseInt(machine_id_val.filter(unique_machine_names)[n])) {%>
+                                        <% if (i%2===0) {%>
+                                            <%} else{%>
+                                                <td hidden>
+                                                    <h5>
+                                                        <%= results[i].m_machine_id %>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <h5>
+                                                        <%= results[i].machine_name %>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <h3>
+                                                        <%= results[i].m_defective_code %>
+                                                    </h3>
+                                                </td>
+                                                <td>
+                                                    <h5>
+                                                        <%= results[i].defective_name %>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input
+                                                                style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;"
+                                                                value="<%= results[i].defective_count %>">
+                                                        </div>
+                                                        <div class="col-3 ps-0">
+                                                            <button id="plus" class="btn btn-info add_count"
+                                                                value="7"><i class="fas fa-plus"
+                                                                    style="color:white;"></i></button>
+                                                        </div>
+                                                        <div class="col-3 ps-0">
+                                                            <button id="minus" class="btn btn-info subtract_count"><i
+                                                                    class="fas fa-minus"
+                                                                    style="color:white;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                </tr>
+                                <%}%>
+                                    <%}%>
+                                        <%}%>
+
+<!-- Table 2 left side ends here -->
+
+<!-- Table 2 right side Starts here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div  class="col-6 hidden table-responsive <%=rowclass%>">
+                    <table class="table table-bordered table-striped table-hover table-success">
+                        <thead>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:23%; text-align: center;"><h4>設備名</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:15%; text-align: center;"><h5>不良コード</h5></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);text-align: center;"><h4>不良特性</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187);width:25%; text-align: center;"><h3></h3></th>
+                        </thead>
+                        <tbody>
+                            <% for (var i=0 ; i<results.length; i++) {%>
+                                <tr data-m_machine_id="<%=results[i].m_machine_id %>"
+                                    data-machine_name="<%=results[i].machine_name %>"
+                                    data-defective_code="<%=results[i].defective_code %>"
+                                    data-defective_name="<%=results[i].defective_name %>"
+                                    data-defective_count="<%=results[i].defective_count %>">
+                                    <% if (results[i].m_machine_id==parseInt(machine_id_val.filter(unique_machine_names)[n])) {%>
+                                        <% if (i%2===0) {%>
+                                            <td hidden>
+                                                <h5>
+                                                    <%= results[i].m_machine_id %>
+                                                </h5>
+                                            </td>
+                                            <td>
+                                                <h5>
+                                                    <%= results[i].machine_name %>
+                                                </h5>
+                                            </td>
+                                            <td>
+                                                <h3>
+                                                    <%= results[i].m_defective_code %>
+                                                </h3>
+                                            </td>
+                                            <td>
+                                                <h5>
+                                                    <%= results[i].defective_name %>
+                                                </h5>
+                                            </td>
+                                            <td>
+                                                <div class="row" value="6">
+                                                    <div class="col-6">
+                                                        <input
+                                                            style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;"
+                                                            class="input_count"
+                                                            value="<%= results[i].defective_count %>">
+                                                    </div>
+                                                    <div class="col-3 ps-0" value="2">
+                                                        <button class="btn btn-info add_count"><i class="fas fa-plus"
+                                                                style="color:white;"></i></button>
+                                                    </div>
+                                                    <div class="col-3 ps-0">
+                                                        <button class="btn btn-info subtract_count"><i
+                                                                class="fas fa-minus" style="color:white;"></i></button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                </tr>
+                                <%} else{%>
+                                    <%}%>
+                                        <%}%>
+                                            <%}%>
+
+                        </tbody>
+                    </table>
+                </div>
+
+<!-- Table 2 right side ends here -->
+<%}%>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {            
+                let shift = '<%-shift%>'
+
+                $('.btn_save_all').on('click', function () {
+                        $('table > tbody > tr').each(function () {
+                        let m_machine_id = parseInt($(this).find('td').eq(0).text(),10);
+                        let machine_name = $(this).find('td').eq(1).text();
+                        let defective_code = parseInt($(this).find('td').eq(2).text(),10);
+                        let defective_name = $(this).find('td').eq(3).text();
+                        let defective_count = parseInt($(this).find('td').eq(4).children().children('div').children('input').val(),10);
+                        var data = {
+                            'm_machine_id': m_machine_id,
+                            'machine_name': machine_name,
+                            'defective_code': defective_code,
+                            'defective_name': defective_name,
+                            'defective_count': defective_count
+                        }
+                        // var url = `/defective/saveMachineDefective/${JSON.stringify(data)}`;
+                        // if (machineid != '' && defective_code != '' && updatadate != '' && shift != '') location.href = url;
+                        console.log('saving whole data',data)
+                    })
+                })
+
+
+                $("body").on("click", ".add_count", function () {
+
+                    $(this).parent().parent().children().children('input').css({
+                        background: 'orange'
+                    });
+                    let defective_count = $(this).parent().parent().children().children('input').val();
+                    let machineid = parseInt($(this).parents('tr').find('td:eq(0)').text(),10);
+                    let machinename = $(this).parents('tr').find('td:eq(1)').text();
+                    let defective_code = parseInt($(this).parents('tr').find('td:eq(2)').text(),10);
+                    let defective_name = $(this).parents('tr').find('td:eq(3)').text();
+                    defective_count++;
+                    $(this).parent().parent().children().children('input').val(defective_count);
+
+                    let data = {
+                        'machineid':machineid,
+                        'machinename':machinename,
+                        'defective_code':defective_code,
+                        'defective_name':defective_name,
+                        'shift':shift,
+                        'defective_count':defective_count
+                    }
+                    console.log('JSON plus data',JSON.stringify(data))
+
+                })
+
+
+                $("body").on("click", ".subtract_count", function () {
+                    let defective_count = $(this).parent().parent().children().children('input').val();
+                    if (defective_count == 0) {
+                        $(this).parent().parent().children().children('input').css({
+                            background: 'white'
+                        });
+                        $(this).parent().parent().children().children('input').val(defective_count);
+                    } else if (defective_count == 1) {
+                        defective_count--;
+                        $(this).parent().parent().children().children('input').val(defective_count);
+                        $(this).parent().parent().children().children('input').css({
+                            background: 'white'
+                        });
+                    } else {
+                        defective_count--;
+                        $(this).parent().parent().children().children('input').val(defective_count);
+                    } 
+                    let machineid = parseInt($(this).parents('tr').find('td:eq(0)').text(), 10);
+                    let machinename = $(this).parents('tr').find('td:eq(1)').text();
+                    machinename = machinename.replace("\n",'');
+                    let defective_code = parseInt($(this).parents('tr').find('td:eq(2)').text(), 10);
+                    let defective_name = $(this).parents('tr').find('td:eq(3)').text();
+                    let data = {
+                        'machineid':machineid,
+                        'machinename':machinename,
+                        'defective_code':defective_code,
+                        'defective_name':defective_name,
+                        'shift':shift,
+                        'defective_count':defective_count
+                    }
+                    console.log('JSON minus data',JSON.stringify(data))
+
+                });
+
+
+                $('ul > li> button').on('click', function(){
+                    var dinamic_machine = $('.dinamic_machinename').text()
+                    var name_val = $(this).text();
+                    console.log('dinamic_machine',dinamic_machine, 'dinamic_machine_name',name_val);
+                    var input_val = parseInt($(this).val(),10);
+
+                    var row_name = 'row_'+input_val;
+                    if (row_name==row_name){
+                        $('.'+row_name).removeClass('hidden');
+                        if (name_val=='マイン画面'){
+                            $('.dinamic_machinename').html('<h2 style="height:50%; width:100%; text-align: center; margin: 7% 0%;">重点管理不良特性一覧</h2>')
+                        }else{
+                            $('.dinamic_machinename').html('<h2 style="height:50%; width:100%; text-align: center; margin: 7% 0%;">'+ name_val+' 不良特性一覧</h2>')
+                        }
+                        
+                    }
+                    $('.table-responsive').addClass('hidden');
+                    $('.'+row_name).removeClass('hidden')
+                })
+            });
+
+        </script>
+
+</body>
+
+</html>

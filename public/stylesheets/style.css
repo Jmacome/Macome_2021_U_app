@@ -1,0 +1,46 @@
+body {
+  width:100%;
+}
+a {
+  color: #00B7FF;
+}
+
+.row_container {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+.container {
+  height: 100%;
+  align-content: center;
+}
+
+
+th {
+  color:black;
+}
+
+
+td {
+  height: 50px;
+  text-align: center;
+}
+
+thead th{
+  position: sticky;
+  color: white;
+  position: -webkit-sticky;
+  top: 0;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic";
+  font-size: medium;
+  text-align: center;
+  z-index: 10;
+}
+
+.navbar {
+  background-color:white;
+}

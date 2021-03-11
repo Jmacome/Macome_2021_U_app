@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
+    crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+    crossorigin="anonymous">
+    <title>defect_all</title>
+</head>
+<body>
+
+    <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+
+    <div class="container-fluid mt-5">
+
+        <div class="row">
+        
+            <div class="col-5">
+                <h1>不良特性一覧表</h1>
+            </div>
+
+<!-- Only one button should be displayed which shows the actual shift working -->
+            <div class="col-3">
+
+                <a href="#" class="btn btn-success">
+                    <h3>普</h3> 
+                </a>
+
+                <a href="#" class="btn btn-success">
+                    <h3 >1s</h3> 
+                </a>
+                <a href="#" class="btn btn-success">
+                    <h3 >2s</h3> 
+                </a>
+
+                <a href="#" class="btn btn-success">
+                    <h3 >3s</h3> 
+                </a>
+            </div>
+<!-- Only one button should be displayed which shows the actual shift working -->
+
+            <div class="col-md-1 ms-auto">
+                <a href="/defective/main" class="btn btn-primary"><h6>メイン画面に<br>戻る</h6> </a>
+            </div>
+        </div>
+    </div>
+
+<!-- Add a button to update the defective count and it should be increased by 1 when pressed the up icon and minus 1 when pressed the bellow icon-->
+    <div class="container-fluid mt-4">
+
+        <div class="row">
+
+            <div class="col-4">
+
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良コード</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良特性</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3></h3></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                            <% results.forEach(item => {%>
+                            <% if (item['group_code'] == 1) {%>
+                      <tr>
+                            <td><h3> <%= item['defective_code'] %> </h3></td>
+                            <td><h4> <%= item['defective_name'] %> </h4></td>
+                            <td><h4> <%= item['defective_status'] %> </h4></td>
+                      </tr>
+                            <%}%>
+                            <% })%>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="col-4">
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良コード</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良特性</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3></h3></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% results.forEach(item => {%>
+                        <% if (item['group_code'] == 2) {%>
+                        <tr>
+                            <td><h3> <%= item['defective_code'] %> </h3></td>
+                            <td><h4> <%= item['defective_name'] %> </h4></td>
+                            <td><h4> <%= item['defective_status'] %> </h4></td>
+                        </tr>
+                        <%}%>
+                        <% })%>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4">
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良コード</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良特性</h3></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3></h3></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% results.forEach(item => {%>
+                        <% if (item['group_code'] == 3) {%>
+                        <tr>
+                            <td><h3> <%= item['defective_code'] %> </h3></td>
+                            <td><h4> <%= item['defective_name'] %> </h4></td>
+                            <td><h4> <%= item['defective_status'] %> </h4></td>
+                        </tr>
+                        <%}%>
+                        <% })%>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+</body>
+</html>
