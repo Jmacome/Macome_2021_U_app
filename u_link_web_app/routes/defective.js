@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var datadb = require('../lib/db');
+const express = require('express');
+const router = express.Router();
+const datadb = require('../lib/db');
 
 // Read router
 router.get('/', (req, res, next) => {
@@ -12,14 +12,115 @@ router.get('/', (req, res, next) => {
         res.render('defective', {results: rows})}})})
   
 router.get('/main', async (req, res) => {
-    datadb.query('SELECT * FROM m_defective_list', (err, rows) => {
+    datadb.query('SELECT * FROM machine_defective', (err, rows) => {
       if (err) {req.flash('error', err);
         // render to views index.ejs
         res.render('defective/main', {results: ''});
       } else {
         // render to views index.ejs
-        res.render('defective/main', {results: rows})}})})
+        // console.log('results', rows)
+        res.render('defective/main', {results: rows})}})});
+
    
+router.get('/main_1', async (req, res) => {
+  datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+    if (err) {req.flash('error', err);
+      // render to views index.ejs
+      res.render('defective/main_1', {results: ''});
+    } else {
+      // render to views index.ejs
+      res.render('defective/main_1', {results: rows})}})})
+
+router.get('/main_2', async (req, res) => {
+  datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+    if (err) {req.flash('error', err);
+      // render to views index.ejs
+      res.render('defective/main_2', {results: ''});
+    } else {
+      // render to views index.ejs
+      res.render('defective/main_2', {results: rows})}})})
+
+router.get('/main_3', async (req, res) => {
+  datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+    if (err) {req.flash('error', err);
+      // render to views index.ejs`
+      res.render('defective/main_3', {results: ''});
+    } else {
+      // render to views index.ejs
+      res.render('defective/main_3', {results: rows})}})})
+
+router.get('/main_4', async (req, res) => {
+  datadb.query('SELECT * FROM machine_defective',(err, rows) => {
+    if (err) {req.flash('error', err);
+      // render to views index.ejs
+      res.render('defective/main_4', {results: ''});
+    } else {
+      // render to views index.ejs
+      res.render('defective/main_4', {results: rows})}})})
+  
+router.get('/main_5', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_5', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_5', {results: rows})}})})
+
+router.get('/main_6', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_6', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_6', {results: rows})}})})
+
+router.get('/main_7', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_7', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_7', {results: rows})}})})
+
+router.get('/main_8', async (req, res) => {
+  datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+    if (err) {req.flash('error', err);
+      // render to views index.ejs
+      res.render('defective/main_8', {results: ''});
+    } else {
+      // render to views index.ejs
+      res.render('defective/main_8', {results: rows})}})})
+  
+router.get('/main_9', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_9', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_9', {results: rows})}})})
+
+router.get('/main_10', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_10', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_10', {results: rows})}})})
+
+router.get('/main_11', async (req, res) => {
+datadb.query('SELECT * FROM machine_defective', (err, rows) => {
+  if (err) {req.flash('error', err);
+    // render to views index.ejs
+    res.render('defective/main_11', {results: ''});
+  } else {
+    // render to views index.ejs
+    res.render('defective/main_11', {results: rows})}})})
+
 router.get('/select', async (req, res) => {
     datadb.query('SELECT * FROM m_defective_list', (err, rows) => {
       if (err) {
@@ -51,7 +152,7 @@ router.get('/add', (req,res,next) => {
       res.render('defective/add', {
       defective_code:'',
       defective_name:'',
-      m_defective_group_group_code:''
+      group_code:''
     })
   })
   
@@ -59,10 +160,10 @@ router.get('/add', (req,res,next) => {
 router.post('/add', (req,res,next) => {
     let defective_code=req.body.defective_code;
     let defective_name=req.body.defective_name;
-    let m_defective_group_group_code=req.body.m_defective_group_group_code
+    let group_code=req.body.group_code
     let errors=false;
   
-    if(defective_code.length === 0 || defective_name.length === 0 || m_defective_group_group_code.length === 0){
+    if(defective_code.length === 0 || defective_name.length === 0 || group_code.length === 0){
       errors=true
   
         //Setting the flash messange
@@ -72,7 +173,7 @@ router.post('/add', (req,res,next) => {
       res.render('defective/add', {
         defective_code: defective_code,
         defective_name: defective_name,
-        m_defective_group_group_code:m_defective_group_group_code
+        group_code:group_code
       })
     }
 
@@ -81,7 +182,7 @@ router.post('/add', (req,res,next) => {
       let form_data = {
       defective_code: defective_code,
       defective_name: defective_name,
-      m_defective_group_group_code:m_defective_group_group_code
+      group_code:group_code
   
       }
   
@@ -93,7 +194,7 @@ router.post('/add', (req,res,next) => {
           res.render('add', {
             defective_code: form_data.defective_code,
             defective_name: form_data.defective_name,
-            m_defective_group_group_code:form_data.m_defective_group_group_code
+            group_code:form_data.group_code
           });
         } else {
           req.flash('success', '追加項目を追加しました')
@@ -123,7 +224,7 @@ router.get('/edit/(:defective_code)', (req,res,next) => {
           defective_code:rows[0].defective_code,
           defective_name:rows[0].defective_name,
           importance_flag:rows[0].importance_flag,
-          m_defective_group_group_code:rows[0].m_defective_group_group_code
+          group_code:rows[0].group_code
         })
       }
     })
@@ -134,10 +235,10 @@ router.post('/update/:defective_code', (req,res, next) => {
     let defective_code = req.params.defective_code;
     let defective_name = req.body.defective_name;
     let importance_flag=req.body.importance_flag;
-    let m_defective_group_group_code=req.body.m_defective_group_group_code;
+    let group_code=req.body.group_code;
     let errors = false;
   
-    if(defective_name.length === 0 || m_defective_group_group_code.length === 0 || importance_flag.length === 0) {
+    if(defective_name.length === 0 || group_code.length === 0 || importance_flag.length === 0) {
       errors = true;
   
       // Set the flash message
@@ -148,7 +249,7 @@ router.post('/update/:defective_code', (req,res, next) => {
         defective_code:req.params.id,
         defective_name:defective_name,
         importance_flag:importance_flag,
-        m_defective_group_group_code:m_defective_group_group_code
+        group_code:group_code
       })
     }
 
@@ -156,7 +257,7 @@ router.post('/update/:defective_code', (req,res, next) => {
       let form_data = {
       defective_name: defective_name,
       importance_flag: importance_flag,
-      m_defective_group_group_code:m_defective_group_group_code
+      group_code:group_code
     }
   
     //Update query
@@ -170,7 +271,7 @@ router.post('/update/:defective_code', (req,res, next) => {
           defective_code: req.params.defective_code,
           defective_name: form_data.defective_name,
           importance_flag: form_data.importance_flag,
-          m_defective_group_group_code:form_data.m_defective_group_group_code
+          group_code:form_data.group_code
         })
       } else {
         req.flash('success', '更新する項目を更新しました')
@@ -219,7 +320,7 @@ router.get('/edit1/(:defective_code)', (req,res,next) => {
           defective_code:rows[0].defective_code,
           defective_name:rows[0].defective_name,
           importance_flag:rows[0].importance_flag,
-          m_defective_group_group_code:rows[0].m_defective_group_group_code
+          group_code:rows[0].group_code
         })
       }
     })

@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- <link rel="stylesheet" href="mystyle.css"> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
+    <script type="text/javascript" src="/scripts/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
+    crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
     crossorigin="anonymous">
+    
     <title>defect_shift</title>
+
 </head>
 <body>
 
@@ -26,33 +33,74 @@
 
         <div class="row mt-5">
 
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <div class="col">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                    <a  href="/defective/main" type="button" class="btn btn-outline-warning" for="btnradio1" 
-                    style="width: 250px; height: 300px; font-size:1000%;">普</a>
+            <div class="btn-group mt-5">
+                <div class="d-grid gap-2 col-3 mx-auto">
+                    <button data-target="#submit" class="btn btn-outline-warning btn-submit mx-auto" value="normal" style=" border-radius: 15%; text-align: center;">
+                        <h1 style="width:80%; height: 100%; font-size: 1200%; text-align: center;">普</h1></button>
                 </div>
 
-                <div class="col">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                    <a href="/defective/main" type="button" class="btn btn-outline-warning" for="btnradio2" 
-                    style="width: 250px; height: 300px; font-size:1000%;">S1</a>
+                <div class="d-grid gap-2 col-3 mx-auto">
+                    <button data-target="#submit" class="btn btn-outline-warning btn-submit mx-auto" value="1S" style=" border-radius: 15%;">
+                        <h1 style="width:80%; height: 100%; font-size: 1200%;">S1</h1></button>
                 </div>
 
-                <div class="col">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                    <a href="/defective/main" type="button" class="btn btn-outline-warning" for="btnradio3" 
-                    style="width: 250px; height: 300px; font-size:1000%;">S2</a>
+                <div class="d-grid gap-2 col-3 mx-auto">
+                    <button data-target="#submit" class="btn btn-outline-warning btn-submit mx-auto" value="2S" style=" border-radius: 15%;" >
+                        <h1 style="width:80%; height: 100%; font-size: 1200%;">S2</h1></button>
                 </div>
 
-                <div class="col">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                    <a href="/defective/main" type="button" class="btn btn-outline-warning" for="btnradio4" 
-                    style="width: 250px; height: 300px; font-size:1000%;">S3</a>
+                <div class="d-grid gap-2 col-3 mx-auto">
+                    <button data-target="#submit" class="btn btn-outline-warning btn-submit mx-auto" value="3S" style=" border-radius: 15%;">
+                        <h1 style="width:80%; height: 100%; font-size: 1200%;">S3</h1></button>
                 </div>
             </div>
         </div>
     </div>
 
+<script type="text/javascript">
+// $("button").on("mouseover", function(){
+//     if ($(this)==true) {
+//         $(this).css({
+//         background:"green"
+//     }); 
+//     } else {
+//         $(this).css({
+//         background:"white"
+//     }); 
+//     };
+
+// });
+
+$("body").on("click", ".btn-submit", function() {
+    var shift = $(this).val();
+
+    console.log('The shift is:',shift);
+    event.preventDefault();
+
+    if (shift=="normal") {
+        if (confirm('シフト名は間違えないですか: '+ '普通勤務') == true ){
+var url ='/defective/main/';
+location.href = url;}
+
+} else if (shift=='1S'){
+    if (confirm('シフト名は間違えないですか: '+ '1直') == true ){
+var url ='/defective/main/';
+
+location.href = url;}
+} else if (shift=='2S') {
+    if (confirm('シフト名は間違えないですか: '+ '２直') == true ){
+var url ='/defective/main/';
+location.href = url;}
+} else {
+    if (confirm('シフト名は間違えないですか: '+ '３直') == true ){
+var url ='/defective/main/';
+location.href = url;
+}
+
+    }
+
+});
+
+</script>
 </body>
 </html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
+    crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+    crossorigin="anonymous">
+    <title>defect_main</title>
+</head>
+
+<body>
+
+    <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+<div >
+
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid mt-5">
+           
+            <div class="row container-fluid">
+           
+                <div class="col-5">
+                    <h1 style="height:80%; width:80%; text-align: center;border-style: solid;border-color: black; border-radius: 15px;">
+                        ブッシュ圧入不良特性一覧</h1>
+                </div>
+    
+    <!-- Display only the active button which indicates the shift -->
+                <div class="col-3">
+                    <a href="#" class="btn btn-success" ><h3>普</h3></a>
+    
+                    <a href="#" class="btn btn-success"><h3>1s</h3></a>
+    
+                    <a href="#" class="btn btn-success"><h3 >2s</h3></a>
+    
+                    <a href="#" class="btn btn-success"><h3 >3s</h3></a>
+                </div>
+    <!-- Display only the active button which indicates the shift -->
+    
+                <div class="col-1 ms-auto">
+                    <a href="#" class="btn btn-primary" style="height:70%; width:100%" > <h2>登録</h2> </a>
+                </div>
+                    <!-- <a href="/defective/all" class="btn btn-primary" style="height:100%; width:40%"><h3>設備選択</h3> </a> -->
+                    
+                <div class="dropdown col-2" >
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
+                    data-bs-toggle="dropdown" aria-expanded="false"   style="height:70%; width:100%">
+                        <h3>設備選択</h3> 
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton" style="text-align: center;">
+                        <li><a class="dropdown-item" href="/defective/main">マイン画面</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_1">穴加工機</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_2">ブッシュ圧入</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_3">穴仕上げ</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_4">ボーリング</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_5">端面研削</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_6">外観検査</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_7">油穴加工機</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_8">斜面加工</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_9">最終計測</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_10">カメラ検査</a></li>
+                        <li><a class="dropdown-item" href="/defective/main_11">外周ニガシ</a></li>
+                    </ul>
+                    </div>
+    
+                    <div class="col-1">
+                        <a href="/defective" class="btn btn-primary" style="height:70%; width:100%"> <h2>戻る</h2> </a>
+                    </div>
+                </div>
+        </div>
+    
+    </nav>
+  <!-- Add a button to update the defective count and it should be increased by 1 when pressed the up icon and minus 1 when pressed the bellow icon-->
+    <div class="container-fluid mt-5">
+
+        <div class="row table-responsive">
+            <div class="col-6">
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:23%; text-align: center;"><h4>設備名</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:15%; text-align: center;"><h5>不良コード</h5></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; text-align: center;"><h4>不良特性</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:25%; text-align: center;"><h3></h3></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% for (var i=0 ; i<results.length; i++) {%>
+                            <% if (results[i].m_machine_id === 11) {%>
+                                <% if (i%2===0) {%>
+                                    <tr><td><h5> <%= results[i].machine_name %> </h5></td>
+                                        <td><h3> <%= results[i].m_defective_code %> </h3></td>
+                                        <td><h5> <%= results[i].defective_name %> </h5></td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;" 
+                                                    type="text" min=0 value="0">
+                                                </div > 
+
+                                                <div class="col-3 ps-0">
+                                                    <button id="plus" class="btn btn-info"><i class="fas fa-plus"></i></button>
+                                                </div>
+
+                                                <div class="col-3 ps-0">
+                                                    <button id="minus" class="btn btn-info"><i class="fas fa-minus"></i></button>
+                                                </div>     
+                                            </div>
+                                            
+                                        </td> 
+
+                                    </tr>
+                                    <%} else{%>
+
+                            <%}%>
+                            <%}%>
+                            <% }%>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="col-6">
+                <table class="table table-bordered table-striped table-hover table-success">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:23%; text-align: center;"><h4>設備名</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:15%; text-align: center;"><h5>不良コード</h5></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; text-align: center;"><h4>不良特性</h4></th>
+                            <th scope="col" style="background-color: rgb(37, 119, 187); 
+                            color: white; width:25%; text-align: center;"><h3></h3></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% for (var i=0 ; i<results.length; i++) {%>
+                            <% if (results[i].m_machine_id === 11) {%>
+                                <% if (i%2===0) {%>
+                                    <%} else{%>
+                                        <tr><td><h5> <%= results[i].machine_name %> </h5></td>
+                                            <td><h3> <%= results[i].m_defective_code %> </h3></td>
+                                            <td><h5> <%= results[i].defective_name %> </h5></td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <input style="width: 100%; height:100%; font-size: 200%; text-align: center; border-radius: 10px;" 
+                                                        type="text" min=0 value="0">
+                                                    </div > 
+    
+                                                    <div class="col-3 ps-0">
+                                                        <button id="plus" class="btn btn-info"><i class="fas fa-plus"></i></button>
+                                                    </div>
+                                                    <div class="col-3 ps-0">
+                                                        <button id="minus" class="btn btn-info"><i class="fas fa-minus"></i></button>
+                                                    </div>     
+                                                </div>
+                                            </td> 
+                                        </tr>
+                            <%}%>
+                            <%}%>
+                            <%}%>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

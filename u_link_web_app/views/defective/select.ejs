@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
+    crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
     crossorigin="anonymous">
@@ -16,34 +19,34 @@
         <div class="alert alert-danger" role="alert"><%- messages.error %></div>
     <% } %>
 
-    <div class="container mt-4">
+    <div class="container-fluid">
         <h2>メイン画面に表示する不良特性を選択してください。</h2>
-    </div>
 
-    <div class="col-md-1 ms-auto">
-        <a href="/defective/main" class="btn btn-primary"><h6>メイン画面に<br>戻る</h6> </a>
-    </div>
 
     <div class="d-grid gap-2 col-3 mx-auto">
-        <a href="/defective/add" class="btn btn-primary" style="background-color: lightblue; color: black"><h4>項目追加を追加する</h4> </a>
+        <a href="/defective/main" class="btn btn-primary"><h6>メイン画面に<br>戻る</h6> </a>
     </div>
-
+</div>
+    <div class="d-grid gap-2 col-3 mx-auto">
+        <button onclick="addRow()" class="btn btn-primary" style="background-color: lightblue; color: black"><h4>項目追加を追加する</h4> </button>
+    </div>
+    <% include ./header%>
 <!-- add edit by defective_code and update by defective_code button -->
     <div class="container-fluid mt-4">
         <div class="row">
             <div class="col-4">
                 <table class="table table-bordered table-striped table-hover table-success">
                     <thead>
-                        <tr>
+
                             <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良コード</h3></th>
                             <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3>不良特性</h3></th>
                             <th scope="col" style="background-color: rgb(37, 119, 187); color: white;"><h3></h3></th>
-                        </tr>
+
                     </thead>
 
                     <tbody>
                         <% results.forEach(item => {%>
-                        <% if (item['m_defective_group_group_code'] == 1) {%>
+                        <% if (item['group_code'] == 1) {%>
                         <tr>
                             <td><h3> <%= item['defective_code'] %> </h3></td><td>
                                 <div class="row">
@@ -99,7 +102,7 @@
 
                     <tbody>
                         <% results.forEach(item => {%>
-                        <% if (item['m_defective_group_group_code'] == 2) {%>
+                        <% if (item['group_code'] == 2) {%>
                             <tr>
                                 <td><h3> <%= item['defective_code'] %> </h3></td><td>
                                     <div class="row">
@@ -154,7 +157,7 @@
                   </thead>
                   <tbody>
                       <% results.forEach(item => {%>
-                        <% if (item['m_defective_group_group_code'] == 3) {%>
+                        <% if (item['group_code'] == 3) {%>
                     <tr>
                         <td><h3> <%= item['defective_code'] %> </h3></td>
                         <td>
@@ -201,6 +204,21 @@
             
         </div>
     </div>
+    <script type="text/javascript">
+    function addRow() {
+            var script = `<tr data-importance_flag='' data-machinename='' data-defective_code='' data-defective_name=''>
+                <td style = "width: 3%;"><input type="checkbox"
+                    style="width: 30px;height: 30px;" name="importance_flag" onclick="handleCheckbox(this)" 
+                    value="false" /></td>
+                <td style = "width: 8%;"></td>  
+                <td style = "width: 12%;"><input name="defective_code" style="text-align:center; width: 95%" placeholder="不良コード" /></td> 
+                <td style = "width: 8%;"><input type="text" name="defective_name" style="text-align:center; width: 95%" placeholder="不良名" /></td> 
+                <td style = "width: 3%;"><button class='btn btn-info  btn-save' style="font-size: large;">保存</button></td>
+                <td style = "width: 3%;"><button class='btn btn-danger btn-delete' style="font-size: large;">削除</button></td></tr>`;
+            $(".data-table tbody").append(script);
+        }
+    
+    </script>
 </body>
 
 </html>
